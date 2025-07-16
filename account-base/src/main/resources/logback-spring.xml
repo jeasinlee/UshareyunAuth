@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <configuration>
+        <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+        <logger name="org.springframework.web" level="INFO" />
+        <!-- 打印日志，包括sql -->
+        <logger name="cn.ushare.account" level="DEBUG"></logger>
+        
+        <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->  
+        <!-- property name="LOG_PATH" value="/home/webauth/log" /-->
+        <springProperty scope="context" name="LOG_PATH" source="path.logPath"/>
+        <!-- 控制台输出 -->
+        <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            </encoder>
+        </appender>
+    
+        <!-- TimeBasedRollingPolicy加SizeBasedTriggeringPolicy的配置无效，两者冲突，
+            不能按天和最大文件大小生成新文件，logback官网推荐用SizeAndTimeBasedRollingPolicy -->
+        <appender name="FILE"  class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+                <FileNamePattern>${LOG_PATH}/%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+                <MaxHistory>180</MaxHistory> 
+                <!-- 按天生成新文件，但是如果一天内文件大小超过，也会生成新文件，以%i作编号 -->
+                <MaxFileSize>256MB</MaxFileSize>
+                <!-- 全部日志文件大小超过时，删除旧文件 -->
+                <totalSizeCap>30GB</totalSizeCap>
+            </rollingPolicy>
+            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            </encoder>
+        </appender>
+        <!-- 异步记录文件 -->
+        <appender name="asyncFile" class="ch.qos.logback.classic.AsyncAppender">
+            <discardingThreshold>0</discardingThreshold>
+            <queueSize>500</queueSize>
+            <appender-ref ref="FILE" />
+        </appender>
+    
+        <springProfile name="dev">
+	        <root level="INFO">
+	            <appender-ref ref="STDOUT" />
+                <appender-ref ref="asyncFile" />
+	        </root>
+        </springProfile>
+        <springProfile name="prod">
+            <root level="INFO">
+                <appender-ref ref="asyncFile" />
+            </root>
+        </springProfile>
+    </configuration>

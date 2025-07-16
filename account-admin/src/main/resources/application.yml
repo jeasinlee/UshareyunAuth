@@ -1,0 +1,116 @@
+server:
+  port: 8082
+  compression:
+    enabled: true
+  aes:
+    key: dzg5czJyejd5NjFk
+    iv: ushareyun!@#2018
+#短信放恶意下发条数
+excessiveSmsNum: 20
+
+#cloud deploy
+isCloud: 0
+
+# 文件路径
+path:
+  #日志文件路径
+  logPath: /account/log
+  #文件上传路径
+  uploadPath: /account/uploadFile
+  #licence文件上传路径
+  licencePath: /account/licence
+  #数据库备份文件路径
+  dbSavePath: /account/dbbackup
+  #sigar库文件路径
+  sigarLibPath: /account/sigar
+
+spring:
+  profiles:
+    active: @packageEnv@
+  application:
+    name: webauth-admin
+  mvc:
+    favicon:
+      enabled: false
+    static-path-pattern: /static/**
+  resources:
+    static-locations: file:${path.uploadPath},/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
+  servlet:
+    multipart:
+      maxFileSize: 100MB
+      maxRequestSize: 100MB
+
+mybatis-plus:
+  #  mapper-locations: classpath:cn/ushare/account/admin/mapper/xml/*Mapper.xml
+  typeAliasesPackage: cn.ushare.account.entity
+  configuration:
+    #解决，查询返回结果含null没有对应字段值问题
+    callSettersOnNulls: true
+    map-underscore-to-camel-case: true
+  global-config:
+    #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
+    #    id-type: 0
+    #    #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+    #    field-strategy: 2
+    #刷新mapper 调试神器
+    refresh-mapper: false
+    db-config:
+      select-strategy: not_empty
+      insert-strategy: not_empty
+      update-strategy: not_empty
+      id-type: auto
+  type-handlers-package: cn.ushare.account.util
+
+aruba:
+  config:
+    loginUrl: http://securelogin.arubanetworks.com/cgi-bin/login
+    logoutUrl: http://securelogin.arubanetworks.com/cgi-bin/logout
+
+webservices:
+  account: wlan
+  password: krr6MnVL
+
+ushareyun:
+  server:
+    createOrderUrl: https://www.ushareyun.net/api/create_order
+    orderQueryUrl: https://www.ushareyun.net/api/order_query
+  config:
+    account: 1   #开启计费
+  alipay:
+    notifyUrl: https://www.ushareyun.net/api/alipay_notify
+  tenpay:
+    notifyUrl: https://www.ushareyun.net/api/tenpay_notify
+
+pay:
+  alipay:
+    appid: 2019061765609266
+    privateKey: MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCs8Nm3aVtlvxz+Y3+aLuLy5ymAHfDCTZvsNtUL2V4ri9btyeZWVJ9KvcnKTXYWy9RP2e2OvsQzhbL0Xje9lKj02IFrP26PC1dG90hNlsyHGqVyvTe6B7c0HhnruY87yRd8JUi0Fp1XBOaPA1jPvsGbPwvmB0KbmUQ1oHWjLi9cd/dVQWHKyaKMIqa2Qj/nbkMzRw/WkeQWjKyhoimyWBwftj4LL+CT/gi1IFf9EQrMjasHBVLiEUCRPlRkthFiHwa/yfpGOc5zUlWjxx9Jz1pmFeH53Zffbbce7TYrPTCzx4ILjiunnvVVPwJiT0BwcC28cQCnS84bYLXxGpz9XMiXAgMBAAECggEAZnvwOS2ZOQlxMBtcgc0pNpLgWAjmJO8C6I9x3yy4Dow3GQEdm6lYIF2p2FXhFg9CSPO3QHEyKeogK4ot9A3FthsbTqfvZ5tr5CUkVr53g9S5mO4iuP5bheoUqEl1ZRN89FfP5tDD+s5vpu5v0eSULODGt1E0GqtP7YuiSspSzLNZpGIBfT9xNN5OjVk3VEVi5iJnXa66mI3HRCdsQRo69guj+vsN2qWdAWuxoidOb6wjrwB7ml4i3CraQ3asmk0vj6mIeRmJ0HkLIcLWfbvFbLCd9DiaZatXKpXudwokWqV8AXbFLOjJVVv2jPkOfAhFFYNvPj/IkZ8jTDTzSUC22QKBgQD7h30ozFmExI0EVUyr0RDL873ca/Y0RWMmFKYxtIa+vmDsE/Gx0tobD2j7VH2U/WsAVUkxMCHpgmI3yDuRt0XErxf5XJLTsLipTDepIPaQb3FrAUvYQrr1looYrHsTjFvsWt2adI+PCjiKF3y9U+hIzn2x9LNwij0bS3StMxpBowKBgQCwA8SDdUeAjbF300ej26RWkDc8qEkeL5C9Jlqx1UNGUh9T6a8DVlN9R3o1+Rz8CqrcdCeSUi4BYmQgrswQOPPxJaf6DZ9yIok/2e/X0VWWbvdYC0QkESyrcCLGFVw+b8cjc1saKbT0NCuJDHYWa829F0ozPth4c53zyKDiXI4UfQKBgQCFfwiHgcW1OJhbh2Y0/rX6eTf4Z/h5D6aqzGTUlqq5S9OnGIK7zVvi5s/iLJqmW8XRnHJHP/OPupqkXop3MR0/YWrI90AaSH4JpKEaC5uxVuSMVVjKw8f0llxe8hQ0cNdM34Ej+99BnLwbVpHm7kSnd6iwrV4bSdNazDZ1wlyaHwKBgQCEicG/D1/REGETDphCbZDY0e2WEk5EmaKOm8PtZt4qpIoMgMmVZLqnelwvKi9GJq40JI7rolAcIL+u0JC+onQmIKnVI87tfc4Fs5Dj3TBqf5JmzMz5r6kISv8UU19LcJXuPt3Z3I/y1xn1L9n31iNtAI2R+v+766uDt45WBUXDbQKBgB+197EDMvuyAMWRhVzlBpw22VcWRkdHk72Hk3qSJrwjvrLXrE6H2YnHaTIli6jUgcyId/CJRJpkhMl9DUNicnwPcBmvpqp3P98lo8oiWBYUnhdHt6YI7/AlZZqF/4DunCV9bZes0EczlfPexIvZu0waA6YPxsa+ktnH+b872miX
+    publicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArPDZt2lbZb8c/mN/mi7i8ucpgB3wwk2b7DbVC9leK4vW7cnmVlSfSr3Jyk12FsvUT9ntjr7EM4Wy9F43vZSo9NiBaz9ujwtXRvdITZbMhxqlcr03uge3NB4Z67mPO8kXfCVItBadVwTmjwNYz77Bmz8L5gdCm5lENaB1oy4vXHf3VUFhysmijCKmtkI/525DM0cP1pHkFoysoaIpslgcH7Y+Cy/gk/4ItSBX/REKzI2rBwVS4hFAkT5UZLYRYh8Gv8n6RjnOc1JVo8cfSc9aZhXh+d2X3223Hu02Kz0ws8eCC44rp571VT8CYk9AcHAtvHEAp0vOG2C18Rqc/VzIlwIDAQAB
+    appCertPath: appCertPublicKey_2019061765609266.crt
+    alipayCertPath: alipayCertPublicKey_RSA2.crt
+    alipayRootCertPath: alipayRootCert.crt
+    alipayServerUrl: https://openapi.alipay.com/gateway.do
+  tenpay:
+    appid: wx9918c9054cb0a030
+    privateKey: 2022qwertyuiopasdfghjklzxcvb1234
+    merchantId: 1541093091
+    keyPath: ushareyun20220418_key.pem
+    certPath: ushareyun20220418_cert.pem
+    certP12Path: ushareyun20220418_cert.p12
+    platformCertPath: wechatpay_platform.pem
+
+weixin:
+  mini:
+    #    appid: wx4fc6534a48431267
+    appid: wx9918c9054cb0a030
+    #    secret: f1e2470a6c1e45aef534d80e2e0a1536
+    secret: 9e3affeb490cad5ae5c1adb49c8af6fe
+    #    baseAccessTokenURL: https://www.ushareyun.net/api/access_token
+    baseAccessTokenURL: https://www.ushareyun.net/api/access_token
+    #    generateSchemeUrl: https://api.weixin.qq.com/wxa/generatescheme
+    generateSchemeUrl: https://api.weixin.qq.com/wxa/generatescheme
+    #generateSchemeUrl: https://api.weixin.qq.com/wxa/generate_urllink
+    redirectUrl: https://www.ushareyun.net/system/ipOpenId/getRedirect
+    selectOpenIdUrl: https://www.ushareyun.net/system/ipOpenId/selectOpenIdByIP
+    selectAllOpenIdUrl: https://www.ushareyun.net/system/ipOpenId/getAllOpenIPByAppId
+    deleteOpenIdUrl: https://www.ushareyun.net/system/ipOpenId/deleteOpenIdByIP

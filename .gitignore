@@ -1,0 +1,8 @@
+target
+/account-admin/account-admin.iml
+/account-root/account-root.iml
+/account-base/account-base.iml
+.idea
+/account-admin/src/main/resources/static/sys/
+/account-admin/src/main/resources/static/app/
+/account-root/LOG_PATH_IS_UNDEFINED/

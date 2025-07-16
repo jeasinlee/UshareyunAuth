@@ -1,0 +1,65 @@
+enviroment: prod
+
+swaggerEnable: false
+
+#用户认证页面跳转配置
+frontPort: 80
+frontPrefix:
+
+tempAccess: 5
+
+#定时器
+schedule:
+  #默认密码更新频率，每天凌晨3点执行
+  defaultPasswordUpdateTime: 0 0 3 * * ?
+
+  #默认密码更新频率，每每5分钟执行
+  heartBeatUpdateTime: 0 0/5 * * * ?
+
+  #在线超时检查频率，每1分钟执行
+  onlinePeriodCheckTime: 0 0/1 * * * ?
+
+  #临时上网用户检查，每30秒执行
+  tempLoginCheckTime: 0/30 * * * * ?
+
+  #在线用户统计频率，每10分钟执行
+  onlineStatisticTime: 0 0/10 * * * ?
+
+  #数据库备份频率，每天凌晨2点执行
+  dbBackupTime: 0 0 2 * * ?
+
+  #日志文件备份频率，每天凌晨4点执行
+  logFileBackupTime: 0 0 4 * * ?
+  #logFileBackupTime: 0/10 * * * * ?
+
+  #警报检查，每10分钟执行
+  alarmCheckTime: 0 0/5 * * * ?
+
+  #关闭：在线闲置检查，每10分钟执行
+#  onlineIdleTime: 0 0 0/12 * * ?
+  # 定时同步ldap用户信息，每天凌晨1点执行
+  syncLdapTime: 0 0 1 * * ?
+  #统计昨日订单，每天凌晨1点执行
+  statisticOrderTime: 0 0 1 * * ?
+
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/webauth_account?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    #url: jdbc:mysql://10.100.0.249:3306/webauth?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    #password: 123456
+    password: ushareyun
+
+ldap:
+  url: ldap://192.168.200.16:389
+  base_dn: ou=Pechoin User,dc=pechoin,dc=com
+  admin_user: iam@pechoin.com
+  admin_pwd: Pechoin@iam
+
+dingTalk:
+  config:
+    appKey: dingh1dlvdkfcfbhv5kg
+    appSecret: c1isbjvU_bpK-KT9MJKbYATcX_IJEJIhZF75qhIa3k8Deyez-IY0Yb_fCTO9WjXC
+
+
