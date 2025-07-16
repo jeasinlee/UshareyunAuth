@@ -1,6 +1,8 @@
 🧩 产品概述
 优享云认证系统（UShareYun 2.0）是由湖南优享云通信技术有限公司开发的一套网络准入与身份认证管理系统，主要用于实现对接入终端（如员工、访客等）的认证、授权、控制和审计，广泛应用于企业、校园、商场等需要无线/有线接入控制的场景。
+
 后端管理仓库：https://github.com/jeasinlee/UshareyunAuth-front
+
 认证界面仓库：https://github.com/jeasinlee/UshareyunAuth-web
 
 🔧 系统主要功能模块
